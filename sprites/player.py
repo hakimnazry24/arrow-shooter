@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+from settings import *
 
 
 class Player(pygame.sprite.Sprite):
@@ -29,12 +30,20 @@ class Player(pygame.sprite.Sprite):
     def move(self):
         pressed_keys = pygame.key.get_pressed()
 
-        if pressed_keys[K_LEFT]:
-            self.facing_direction = "left"
-            self.rect.move_ip(-5, 0)
-        if pressed_keys[K_RIGHT]:
-            self.facing_direction = "right"
-            self.rect.move_ip(5, 0)
+        if self.rect.left > 0:
+            if pressed_keys[K_LEFT]:
+                self.facing_direction = "left"
+                self.rect.move_ip(-5, 0)
+        if self.rect.right < SCREEN_WIDTH:
+            if pressed_keys[K_RIGHT]:
+                self.facing_direction = "right"
+                self.rect.move_ip(5, 0)
+        if self.rect.top > UPPER_BOUNDARY:
+            if pressed_keys[K_UP]:
+                self.rect.move_ip(0, -5)
+        if self.rect.bottom < SCREEN_HEIGHT:
+            if pressed_keys[K_DOWN]:
+                self.rect.move_ip(0, 5)
 
     def draw(self, surface):
         if self.facing_direction == "left":
